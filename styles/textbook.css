@@ -1,0 +1,234 @@
+/* ============================================================
+   Phuket Interactive Textbook — shared design tokens
+   Match the visual vocabulary of migrations-map.html.
+   ============================================================ */
+
+:root {
+  --paper:      #ede4d3;
+  --paper-dark: #d8cdb6;
+  --ink:        #2b1d12;
+  --ink-soft:   #5a4530;
+  --accent:     #a8331f;
+
+  /* Earth-tone family for data/era coding */
+  --c-sea:     #1f5b6b;
+  --c-earth:   #8a6d2c;
+  --c-veg:     #3f6b3a;
+  --c-brick:   #a8331f;
+  --c-aub:     #6b3070;
+  --c-amber:   #b8761f;
+  --c-umber:   #5a4530;
+  --c-night:   #2b1d12;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- Typographic primitives ---------- */
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .3em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  margin-bottom: .75rem;
+}
+
+h1, h2, h3 { font-weight: 600; line-height: 1.1; }
+h1 { font-size: 2.6rem; letter-spacing: -.01em; }
+h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+
+.subtitle {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  border-bottom: 1px solid rgba(43,29,18,.25);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+p { font-size: 1.05rem; line-height: 1.55; }
+
+.legend-title,
+.section-rule {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: .75rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.legend-title::after,
+.section-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(43,29,18,.2);
+}
+
+/* ---------- Cards / cartouches ---------- */
+
+.card {
+  background: var(--paper);
+  border: 1px solid rgba(43,29,18,.3);
+  padding: 1.5rem;
+  position: relative;
+}
+.card.shadowed {
+  box-shadow: 0 20px 40px -15px rgba(43,29,18,.4);
+}
+
+.meta-strip {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  color: var(--ink-soft);
+  border-top: 1px solid rgba(43,29,18,.2);
+  border-bottom: 1px solid rgba(43,29,18,.2);
+  padding: .5rem 0;
+  margin-bottom: .75rem;
+}
+.meta-strip strong { color: var(--ink); font-weight: 500; }
+
+/* ---------- Vocab click-to-define ---------- */
+
+.vocab {
+  cursor: pointer;
+  border-bottom: 1.5px dotted var(--accent);
+  color: inherit;
+  position: relative;
+  transition: background .15s ease;
+  padding: 0 1px;
+}
+.vocab:hover,
+.vocab:focus {
+  background: rgba(168,51,31,.10);
+  outline: none;
+}
+.vocab.is-open {
+  background: rgba(168,51,31,.15);
+}
+
+.vocab-pop {
+  position: absolute;
+  z-index: 1000;
+  max-width: min(320px, calc(100vw - 16px));
+  background: var(--paper);
+  border: 1px solid rgba(43,29,18,.4);
+  padding: .85rem 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink);
+  box-shadow: 3px 4px 0 rgba(43,29,18,.15);
+  animation: vocab-fade-in .15s ease-out;
+}
+.vocab-pop::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(43,29,18,.15);
+  pointer-events: none;
+}
+@keyframes vocab-fade-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.vocab-pop-term {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: .35rem;
+}
+.vocab-pop-def { color: var(--ink); }
+.vocab-pop-pron {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: .9rem;
+  margin-top: .35rem;
+}
+
+/* ---------- Site nav (used by chapter pages) ---------- */
+
+.site-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(43,29,18,.2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.site-nav a { color: var(--ink-soft); }
+.site-nav a:hover { color: var(--accent); text-decoration: none; }
+.site-nav .home-link::before { content: "← "; }
+.site-nav .next-link::after { content: " →"; }
+
+/* ---------- Loading state pattern (shared) ---------- */
+
+.status-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  z-index: 1000;
+  font-style: italic;
+  color: var(--ink-soft);
+  flex-direction: column;
+  gap: .5rem;
+  text-align: center;
+  padding: 1rem;
+  transition: opacity .4s ease;
+}
+.status-overlay.hidden { opacity: 0; pointer-events: none; }
+.status-overlay small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .1em;
+  color: var(--ink-soft);
+  opacity: .7;
+}
+
+/* ---------- Utilities ---------- */
+
+.center-col {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+.wide-col {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 2.1rem; }
+  h2 { font-size: 1.35rem; }
+  .center-col, .wide-col { padding: 1.5rem 1.1rem 3rem; }
+}

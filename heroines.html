@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Heroines — Phuket</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/textbook.css">
+<style>
+  /* ---------- Page-specific layout ---------- */
+  .chapter {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+  }
+  .chapter-header {
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(43,29,18,.25);
+  }
+  .chapter-header h1 {
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    font-weight: 600;
+    line-height: 1;
+    margin: .25rem 0 .5rem;
+    letter-spacing: -.01em;
+  }
+  .chapter-sub {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    max-width: 52ch;
+    margin-top: .5rem;
+  }
+
+  /* ---------- Sections ---------- */
+  section.act {
+    margin-top: 3rem;
+  }
+  .act-rule {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: 1rem;
+  }
+  .act-rule::after {
+    content: ""; flex: 1; height: 1px; background: rgba(43,29,18,.2);
+  }
+  .act h2 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: .35rem;
+  }
+  .act h2 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .act-dek {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7rem;
+    color: var(--ink-soft);
+    letter-spacing: .12em;
+    margin-bottom: 1rem;
+  }
+  .act p {
+    font-size: 1.08rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .act p:last-child { margin-bottom: 0; }
+
+  /* ---------- Cross-reference callout ---------- */
+  .xref {
+    margin: 1.25rem 0;
+    padding: .85rem 1rem;
+    background: rgba(184,118,31,.08);
+    border-left: 3px solid var(--c-amber);
+    font-size: .98rem;
+    line-height: 1.5;
+  }
+  .xref a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--c-amber); }
+  .xref a:hover { color: var(--accent); text-decoration: none; }
+  .xref-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .6rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--c-amber);
+    margin-bottom: .35rem;
+    font-weight: 500;
+  }
+
+  /* ---------- Figures (photos with captions) ---------- */
+  figure.figure {
+    margin: 2rem 0 1.5rem;
+    padding: 0;
+  }
+  figure.figure .figure-frame {
+    background: var(--paper-dark);
+    padding: .5rem;
+    border: 1px solid rgba(43,29,18,.25);
+    box-shadow: 3px 4px 0 rgba(43,29,18,.12);
+    line-height: 0;
+  }
+  figure.figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: sepia(.18) saturate(.9) contrast(1.02);
+  }
+  figure.figure figcaption {
+    margin-top: .85rem;
+    font-size: .95rem;
+    line-height: 1.5;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .figure-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .6rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-right: .5rem;
+    font-style: normal;
+    font-weight: 500;
+  }
+  .figure-credit {
+    display: block;
+    margin-top: .35rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .08em;
+    color: var(--ink-soft);
+    font-style: normal;
+    line-height: 1.4;
+  }
+  .figure-credit a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--ink-soft);
+  }
+  .figure-credit a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ---------- Pull quote ---------- */
+  .pull {
+    margin: 2rem 0;
+    padding: 0 1rem;
+    border-left: 2px solid var(--accent);
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .pull cite {
+    display: block;
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: .5rem;
+  }
+
+  /* ---------- Two-name strip (titles bestowed) ---------- */
+  .titles {
+    margin: 1.75rem 0 .75rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .title-card {
+    border: 1px solid rgba(43,29,18,.25);
+    background: var(--paper-dark);
+    padding: 1rem 1.1rem;
+  }
+  .title-card .t-thai {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin-bottom: .25rem;
+    font-style: italic;
+  }
+  .title-card .t-rom {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.2;
+    margin-bottom: .35rem;
+  }
+  .title-card .t-gloss {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .15em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: .4rem;
+  }
+  .title-card .t-given {
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+
+  /* ---------- Timeline ---------- */
+  .timeline {
+    margin: 2.5rem 0 0;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid rgba(43,29,18,.2);
+  }
+  .timeline-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .timeline-title::after { content: ""; flex: 1; height: 1px; background: rgba(43,29,18,.2); }
+  .tl-list {
+    display: grid;
+    gap: 1rem;
+  }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: .85rem 0;
+    border-bottom: 1px dashed rgba(43,29,18,.2);
+  }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .85rem;
+    letter-spacing: .1em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .tl-label {
+    font-size: 1.05rem;
+    line-height: 1.45;
+  }
+  .tl-label strong { font-weight: 600; }
+
+  /* ---------- "What you can still see today" ---------- */
+  .legacy {
+    margin: 3rem 0 0;
+    padding: 1.75rem 1.5rem;
+    background: rgba(43,29,18,.04);
+    border: 1px solid rgba(43,29,18,.15);
+  }
+  .legacy h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .85rem;
+    font-weight: 500;
+  }
+  .legacy ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .legacy li {
+    padding: .65rem 0;
+    border-bottom: 1px solid rgba(43,29,18,.1);
+    line-height: 1.5;
+  }
+  .legacy li:last-child { border-bottom: none; }
+  .legacy li strong { font-weight: 600; }
+
+  /* ---------- End matter ---------- */
+  .endnote {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(43,29,18,.2);
+    font-size: .9rem;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  .chapter-footer {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .chapter-footer a { color: var(--ink-soft); text-decoration: none; }
+  .chapter-footer a:hover { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .tl-item { grid-template-columns: 4.25rem 1fr; gap: .75rem; }
+    .pull { font-size: 1.1rem; }
+    .titles { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="home-link" href="index.html">Contents</a>
+  <span>The Heroines</span>
+  <a href="tin-island.html">The Tin Island</a>
+</nav>
+
+<article class="chapter">
+
+  <header class="chapter-header">
+    <div class="eyebrow">The Defense of Thalang · 1785</div>
+    <h1>The <em>Heroines</em></h1>
+    <p class="chapter-sub">
+      Two sisters, a town with no governor, and a Burmese army at the gates.
+      The story of how Phuket — then called Thalang — was saved.
+    </p>
+  </header>
+
+  <!-- ============================================================ -->
+  <section class="act" id="thalang">
+    <div class="act-rule">§ I</div>
+    <h2>The island called <em>Thalang</em></h2>
+    <div class="act-dek">A different capital.</div>
+
+    <p>
+      Today the busy part of the island is in the south — Phuket Town,
+      the Old Town, the airport road, the long west-coast beaches. But
+      in 1785 the south was almost empty jungle. The capital of the
+      island was a town in the <strong>north</strong> called
+      <strong>Thalang</strong>.
+    </p>
+
+    <p>
+      Thalang was a small but important place. Tin from the rivers nearby
+      was carried down to its harbour and traded to passing ships. European
+      sailors who came to buy that tin called the island
+      <span class="vocab" data-def="An old European name for Phuket, used on maps from the 1500s to the 1800s. It is a corruption of the Malay name 'Ujung Salang,' meaning 'Cape Salang.'">Junk Ceylon</span> —
+      a name that still appears on old maps today. The town had a Thai
+      governor, a small fort, two old cannons, and a temple called
+      <strong>Phra Nang Sang</strong> at its centre.
+    </p>
+
+    <div class="xref">
+      <div class="xref-label">↪ Read more</div>
+      Thalang's tin was the reason ships came at all. The merchants and
+      miners who shaped the island's wider story —
+      <a href="migrations-map.html">are mapped in <em>A Thousand Years of Arrivals</em>.</a>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="act" id="war">
+    <div class="act-rule">§ II</div>
+    <h2>A war of <em>nine armies</em></h2>
+    <div class="act-dek">1785 — 1786.</div>
+
+    <p>
+      In 1782 a new king took the throne in Bangkok — King Rama I, the
+      first ruler of the
+      <span class="vocab" data-def="The royal family that has ruled Thailand since 1782. The current king of Thailand is also a Chakri king." data-pron="CHAH-kree">Chakri</span>
+      dynasty that still rules Thailand today. He was busy building a new
+      capital on the banks of the Chao Phraya River. To the west, in
+      Burma, a different king had also recently taken power: <strong>King
+      Bodawpaya</strong> of the
+      <span class="vocab" data-def="The royal family that ruled Burma (modern Myanmar) from 1752 to 1885. The Konbaung kings invaded Siam many times during the late 1700s." data-pron="KON-bowng">Konbaung</span>
+      dynasty. He saw a young Siamese kingdom that had not yet finished
+      rebuilding, and he saw an opportunity.
+    </p>
+
+    <p>
+      In late 1785, Bodawpaya sent <strong>nine armies</strong> against
+      Siam from nine different directions at once. Thai history calls it
+      the <em>Songkhram Kao Thap</em> — the <strong>War of Nine
+      Armies</strong>. One of those armies — about three thousand men —
+      sailed south from the Burmese port of Mergui along the Andaman
+      coast. They sacked the mainland town of Phang Nga. Then they
+      crossed the narrow channel and landed on the north coast of
+      Phuket, marching on Thalang.
+    </p>
+
+    <figure class="figure">
+      <div class="figure-frame">
+        <img src="images/siam-burma-battle.jpg" alt="A late nineteenth-century Thai painting of a battle between Siamese and Burmese armies, with war elephants, soldiers in red, and bright flags." loading="lazy" />
+      </div>
+      <figcaption>
+        <span class="figure-label">Fig. I</span>
+        A Thai painting of a Siamese-Burmese battle, made about a hundred
+        years after the war. War elephants, red coats, and bright
+        regimental flags — the imagery of the long Burma–Siam wars as Thai
+        artists later remembered them.
+        <span class="figure-credit">
+          Painting: late 19th-century Thai artist, public domain (Walters Art Museum, 35.229),
+          <a href="https://commons.wikimedia.org/wiki/File:Battle_Scene_with_Elephants_Siam_vs_Burma_Painting.png" rel="noopener">via Wikimedia Commons</a>.
+        </span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="act" id="sisters">
+    <div class="act-rule">§ III</div>
+    <h2>Two <em>sisters</em></h2>
+    <div class="act-dek">Chan and Mook.</div>
+
+    <p>
+      The Burmese could not have picked a worse moment for Thalang. The
+      governor of the town — an official called <strong>Phraya
+      Phimon</strong> — had just died of illness, only weeks before. His
+      young son was not old enough to take his place. The town had no
+      leader.
+    </p>
+
+    <p>
+      But the governor's widow was still there. Her name was
+      <strong>Khun Ying Chan</strong> — Lady Chan — and she was the elder
+      daughter of a respected local family from the village of Baan
+      Khien. Her younger sister, <strong>Khun Ying Mook</strong>, lived
+      nearby. The two women knew the people of the town. They knew the
+      land. And when news came that the Burmese army had crossed onto
+      the island, they did not wait for help to arrive from Bangkok.
+      They began organising the defence themselves.
+    </p>
+
+    <p>
+      They gathered everyone who could carry a weapon — Chan's son
+      Thien, her cousin Thongpun (who became the acting vice-governor),
+      farmers, fishermen, traders, and the women of the town. The two
+      old cannons were rolled out to the gates of the temple. A small
+      number of
+      <span class="vocab" data-def="An early kind of long musket — a heavy gun loaded from the front with a metal ball and gunpowder. It was very slow to reload but loud and frightening." data-pron="AR-kuh-bus">arquebuses</span>
+      were bought from a British merchant in Penang named <strong>Francis
+      Light</strong>. Then they waited.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="act" id="siege">
+    <div class="act-rule">§ IV</div>
+    <h2>The <em>siege</em></h2>
+    <div class="act-dek">February — March 1785.</div>
+
+    <p>
+      The Burmese surrounded the town. What followed was a
+      <span class="vocab" data-def="A long attack where an army surrounds a town and tries to cut off its food, water, and help. The town inside has to hold out until the attackers leave or break in.">siege</span> —
+      the slow, patient kind of attack where one side tries to starve
+      the other into surrender. It lasted, by most accounts, about
+      <strong>five weeks</strong>.
+    </p>
+
+    <p>
+      Day after day, the Burmese pressed at the walls. Day after day,
+      Chan and Mook held them off. They were badly outnumbered, but they
+      had two things on their side. The first was the temple itself,
+      whose walls were strong. The second was the
+      <span class="vocab" data-def="A tropical wet season with very heavy rain. In Phuket the southwest monsoon runs from May to October and the northeast from November to April.">monsoon</span>
+      season was ending, and the dry-season heat made the besieging
+      Burmese army's supplies harder to keep fresh.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="act" id="walls">
+    <div class="act-rule">§ V</div>
+    <h2>The women on the <em>walls</em></h2>
+    <div class="act-dek">A clever defence.</div>
+
+    <p>
+      The story Phuket still tells of those weeks is this. The town did
+      not have enough soldiers to look like a real garrison from the
+      outside. So Chan and Mook turned to the women of the town. They
+      had hundreds of them cut their hair short in the style men wore.
+      They dressed them in soldiers' clothing. They gave them rolled-up
+      palm leaves shaped to look like the long barrels of muskets.
+    </p>
+
+    <p>
+      Each evening, as the light faded, the women paraded along the top
+      of the temple walls. From the Burmese camp below, in the dusk, the
+      garrison looked twice as large as it really was. New "soldiers"
+      kept arriving each night. Coconut husks were burned to make the
+      smell and crackle of musket fire. From inside the walls, the
+      defenders shouted orders to imaginary regiments.
+    </p>
+
+    <div class="pull">
+      "We have no king here, no governor, no army. We have only ourselves —
+      and we are enough."
+      <cite>— A line attributed to Lady Chan, in later retellings</cite>
+    </div>
+
+    <p>
+      Whether the trick alone broke the Burmese, or whether they were
+      already running out of food and water, the result was the same.
+      On <strong>13 March 1785</strong>, after about a month of siege,
+      the Burmese commander gave the order to retreat. His army marched
+      back to the coast and sailed away. Thalang had held.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="act" id="thao">
+    <div class="act-rule">§ VI</div>
+    <h2>The title <em>Thao</em></h2>
+    <div class="act-dek">A king's gift.</div>
+
+    <p>
+      News of the defence reached Bangkok. King Rama I, hearing what the
+      two sisters had done, did something very rare. He gave them both
+      the rank of
+      <span class="vocab" data-def="A high noble rank in old Siam, usually given only to men who had served the king. The two heroines of Thalang are among the very few women in Thai history to receive it.">Thao</span> —
+      a noble title almost never given to women in Thai history — and
+      with it, two formal names that the island still uses today.
+    </p>
+
+    <div class="titles">
+      <div class="title-card">
+        <div class="t-thai">ท้าวเทพกระษัตรี</div>
+        <div class="t-rom">Thao Thep Kasattri</div>
+        <div class="t-gloss">Lady · Divine · Warrior-Queen</div>
+        <div class="t-given">Given to <strong>Chan</strong>, the elder sister.</div>
+      </div>
+      <div class="title-card">
+        <div class="t-thai">ท้าวศรีสุนทร</div>
+        <div class="t-rom">Thao Sri Sunthon</div>
+        <div class="t-gloss">Lady · Glorious · Beautiful</div>
+        <div class="t-given">Given to <strong>Mook</strong>, the younger sister.</div>
+      </div>
+    </div>
+
+    <p>
+      Chan lived another seven years and died in 1792. Mook outlived
+      her sister by several more. Neither was a soldier by training,
+      and neither asked for the titles she was given. But more than
+      two centuries later, their names are still everywhere on this
+      island — the road you take to the airport is named for one of
+      them, and the district you drive through is named for the other.
+    </p>
+
+    <figure class="figure">
+      <div class="figure-frame">
+        <img src="images/heroines-monument.jpg" alt="The Heroines' Monument: two bronze statues of Thao Thep Kasattri and Thao Sri Sunthon standing back to back on a tall white plinth, holding swords raised high, photographed at night with floodlights." loading="lazy" />
+      </div>
+      <figcaption>
+        <span class="figure-label">Fig. II</span>
+        The Heroines' Monument at Tha Ruea — Chan and Mook in bronze,
+        back to back, swords raised. The roundabout where the monument
+        stands is on Highway 402, the road that runs from the airport
+        down into Phuket Town.
+        <span class="figure-credit">
+          Photograph: Sry85, 2008, CC BY 3.0,
+          <a href="https://commons.wikimedia.org/wiki/File:Thao_Thep_Kasattri_and_Thao_Sri_Sunthon.jpg" rel="noopener">via Wikimedia Commons</a>.
+        </span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="legacy">
+    <h3>What you can still see today</h3>
+    <ul>
+      <li><strong>The Heroines' Monument</strong> — at the Tha Ruea roundabout on Highway 402, about twelve kilometres north of Phuket Town. Bronze figures of the two sisters, back to back, swords raised. Completed in 1967 by the Thai sculptor Sanan Silakorn.</li>
+      <li><strong>Thepkasattri Road</strong> — Highway 402, the main road from the airport down to Phuket Town, is named after the elder sister. You almost certainly drive on it the moment you leave the airport.</li>
+      <li><strong>Si Sunthon</strong> — the subdistrict (<em>tambon</em>) where the monument stands is named after the younger sister.</li>
+      <li><strong>The Thalang National Museum</strong> — a short walk from the monument. Opened in 1985 to mark the 200th anniversary of the battle, it holds artefacts from old Thalang, the siege, and the island's prehistory.</li>
+      <li><strong>The Heroines' Memorial Fair</strong> — held each year around 13 March in Thalang District, with parades, historical re-enactments, and offerings at the monument.</li>
+      <li><strong>The provincial seal</strong> — Phuket's official emblem itself shows the two sisters, swords raised, just as the monument does.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================ -->
+  <figure class="figure">
+    <div class="figure-frame">
+      <img src="images/thalang-museum.jpg" alt="The Thalang National Museum, a low cream-coloured building with traditional Thai roofs, photographed in daylight with palm trees nearby." loading="lazy" />
+    </div>
+    <figcaption>
+      <span class="figure-label">Fig. III</span>
+      The Thalang National Museum, opened in 1985 — two hundred years
+      after the siege. It sits a short walk from the Heroines'
+      Monument and holds many of the surviving objects from the old
+      capital of the island.
+      <span class="figure-credit">
+        Photograph: Roma Neus, 2010, CC BY 3.0,
+        <a href="https://commons.wikimedia.org/wiki/File:Thalang_National_Museum_2010_-_panoramio.jpg" rel="noopener">via Wikimedia Commons</a>.
+      </span>
+    </figcaption>
+  </figure>
+
+  <!-- ============================================================ -->
+  <section class="timeline">
+    <div class="timeline-title">A short timeline</div>
+    <div class="tl-list">
+      <div class="tl-item">
+        <span class="tl-year">c. 1735</span>
+        <span class="tl-label"><strong>Chan</strong> is born in the village of Baan Khien on Thalang island.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">c. 1737</span>
+        <span class="tl-label">Her younger sister <strong>Mook</strong> is born.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">1782</span>
+        <span class="tl-label">King Rama I founds the <strong>Chakri dynasty</strong> in the new capital of Bangkok.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">Late 1785</span>
+        <span class="tl-label">Phraya Phimon, governor of Thalang and Chan's husband, dies of illness. The town has no leader.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">Feb 1785</span>
+        <span class="tl-label">The Burmese army of King Bodawpaya lands on the north coast and lays siege to Thalang.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">13 Mar 1785</span>
+        <span class="tl-label">After about five weeks, the Burmese <strong>retreat</strong>. The town has held.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">1785</span>
+        <span class="tl-label">King Rama I bestows the titles <strong>Thao Thep Kasattri</strong> on Chan and <strong>Thao Sri Sunthon</strong> on Mook.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">1792</span>
+        <span class="tl-label">Chan dies. Mook outlives her by several years.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">1967</span>
+        <span class="tl-label">The <strong>Heroines' Monument</strong> is completed at the Tha Ruea roundabout in Thalang District.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">1985</span>
+        <span class="tl-label">The <strong>Thalang National Museum</strong> opens, marking 200 years since the siege.</span>
+      </div>
+      <div class="tl-item">
+        <span class="tl-year">Today</span>
+        <span class="tl-label">A road, a district, a fair, the provincial seal — and a monument the whole island drives past.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <p class="endnote">
+    A note on the dates and names. The version above follows the way
+    the story is traditionally told and remembered on Phuket itself —
+    the version painted on the monument and celebrated at the annual
+    fair. Some scholars place the Burmese retreat in March 1786 rather
+    than 1785 (the war ran across both years), and the Burmese
+    commander's name is sometimes given as <em>Yi Wun</em>, which is
+    almost certainly a Thai rendering of the Burmese title
+    <em>Wungyi</em>, meaning "great minister." The shape of the story —
+    a town with no governor, two sisters who organised its defence, a
+    siege that lasted about a month, and a king's rare honour
+    afterwards — is the part that has been remembered for two and a
+    half centuries.
+  </p>
+
+  <nav class="chapter-footer">
+    <a href="index.html">← Contents</a>
+    <a href="tin-island.html">The Tin Island →</a>
+  </nav>
+
+</article>
+
+<script src="scripts/vocab.js"></script>
+</body>
+</html>

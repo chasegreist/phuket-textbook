@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Phuket — An Interactive History</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/textbook.css">
+<style>
+  /* ---------- Cover ---------- */
+  .cover {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 1.5rem;
+    background:
+      radial-gradient(ellipse at 70% 20%, rgba(168,51,31,.05), transparent 60%),
+      linear-gradient(180deg, var(--paper) 0%, var(--paper-dark) 100%);
+  }
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(43,29,18,.2);
+  }
+  .cover-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 1rem;
+    gap: 1.5rem;
+  }
+  .cover-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .cover-title {
+    font-size: clamp(2.4rem, 7vw, 4.5rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -.015em;
+    max-width: 14ch;
+  }
+  .cover-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .cover-sub {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    max-width: 32rem;
+    line-height: 1.5;
+  }
+  .cover-mark {
+    margin: 1rem 0 .5rem;
+    width: 60px; height: 1px; background: rgba(43,29,18,.4);
+  }
+  .cover-bottom {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .6rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-top: 1rem;
+    border-top: 1px solid rgba(43,29,18,.2);
+  }
+
+  /* compass-rose ornament */
+  .ornament {
+    width: 56px; height: 56px;
+    display: block;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Contents ---------- */
+  .contents {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+  }
+  .contents-header { margin-bottom: 2.5rem; }
+  .contents-header h2 {
+    font-size: 2rem;
+    margin: .25rem 0 .5rem;
+  }
+  .contents-header h2 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .contents-intro {
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 56ch;
+  }
+  .contents-intro p + p { margin-top: .75rem; }
+
+  .toc {
+    margin-top: 2.5rem;
+    border-top: 1px solid rgba(43,29,18,.2);
+  }
+  .toc-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.25rem;
+    align-items: baseline;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid rgba(43,29,18,.15);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background .2s ease, padding .2s ease;
+  }
+  .toc-item:hover {
+    background: rgba(43,29,18,.04);
+    padding-left: .5rem;
+    text-decoration: none;
+  }
+  .toc-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: .35rem;
+  }
+  .toc-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .toc-desc {
+    font-size: 1.02rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 60ch;
+  }
+  .toc-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ---------- For students callout ---------- */
+  .for-students {
+    margin: 3rem 0 0;
+    padding: 1.5rem 1.5rem;
+    background: rgba(168,51,31,.05);
+    border-left: 3px solid var(--accent);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  .for-students h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .5rem;
+    font-weight: 500;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem 3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    border-top: 1px solid rgba(43,29,18,.15);
+  }
+
+  @media (max-width: 600px) {
+    .toc-item { grid-template-columns: 1fr; }
+    .toc-status { margin-top: .35rem; }
+  }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="cover-top">
+    <span>An Interactive History</span>
+    <span>For Grade 8 · I&amp;S</span>
+  </div>
+
+  <div class="cover-center">
+    <div class="cover-eyebrow">A People's Atlas</div>
+
+    <h1 class="cover-title">Phuket — An <em>Interactive</em> History</h1>
+
+    <svg class="ornament" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="1"/>
+      <circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" stroke-width=".5"/>
+      <line x1="50" y1="10" x2="50" y2="90" stroke="currentColor" stroke-width=".5"/>
+      <line x1="10" y1="50" x2="90" y2="50" stroke="currentColor" stroke-width=".5"/>
+      <polygon points="50,12 53,50 50,46 47,50" fill="currentColor"/>
+      <circle cx="50" cy="50" r="2" fill="currentColor"/>
+    </svg>
+
+    <p class="cover-sub">
+      A short, illustrated history of the island of Phuket — its peoples,
+      its tin, and the stories you can still find on its streets today.
+    </p>
+
+    <div class="cover-mark"></div>
+  </div>
+
+  <div class="cover-bottom">
+    <span>Andaman Sea · 7.88° N</span>
+    <span>A work in progress</span>
+  </div>
+</section>
+
+<main class="contents">
+  <header class="contents-header">
+    <div class="eyebrow">Inside</div>
+    <h2>What's <em>here</em></h2>
+    <div class="contents-intro">
+      <p>
+        Phuket is a small island with a very big story. People have been
+        arriving here for more than a thousand years — by sea, by river,
+        and lately by plane — and each group has left a mark you can still
+        find today.
+      </p>
+      <p>
+        Two pieces are ready to read. Open either one and the rest of the
+        chapter unfolds on the page.
+      </p>
+    </div>
+
+    <div class="for-students">
+      <h3>How to use this book</h3>
+      Words with a <span style="border-bottom:1.5px dotted var(--accent);">dotted red line</span>
+      under them are clickable — tap or click to see a short definition.
+      Each piece also has a map or visual you can interact with.
+      The book works on a phone or a laptop.
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Articles">
+
+    <a class="toc-item" href="migrations-map.html">
+      <div>
+        <div class="toc-title">A Thousand Years of <em>Arrivals</em></div>
+        <div class="toc-desc">
+          An interactive map of eight waves of migration into Phuket — Sea Gypsies,
+          Tamil traders, Malay settlers, Hokkien tin miners, and more. Click any
+          route to read its story; hover the city dots to see what each place is.
+        </div>
+      </div>
+      <span class="toc-status">Read →</span>
+    </a>
+
+    <a class="toc-item" href="heroines.html">
+      <div>
+        <div class="toc-title">The <em>Heroines</em></div>
+        <div class="toc-desc">
+          1785: a Burmese army surrounds Thalang, the old capital of the island.
+          The governor has just died. Two sisters — Chan and Mook — organise
+          the defence, and the king of Siam gives them a title almost no woman
+          had ever held.
+        </div>
+      </div>
+      <span class="toc-status">Read →</span>
+    </a>
+
+    <a class="toc-item" href="tin-island.html">
+      <div>
+        <div class="toc-title">The Tin <em>Island</em></div>
+        <div class="toc-desc">
+          How a soft, silvery metal in Phuket's rivers and seabed shaped the
+          island — from small Malay miners to giant dredge ships, then collapse,
+          then tourism.
+        </div>
+      </div>
+      <span class="toc-status">Read →</span>
+    </a>
+
+  </nav>
+</main>
+
+<footer>
+  Phuket Textbook · A work in progress
+</footer>
+
+</body>
+</html>
