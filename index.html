@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Phuket — An Interactive History</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles/textbook.css">
 <style>
@@ -191,6 +192,148 @@
     .toc-item { grid-template-columns: 1fr; }
     .toc-status { margin-top: .35rem; }
   }
+
+  /* ---------- Island map ---------- */
+  .island-map-section {
+    margin: 2.25rem 0 2rem;
+  }
+  .island-map-section .legend-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: .9rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .island-map-section .legend-title::after {
+    content: ""; flex: 1; height: 1px; background: rgba(43,29,18,.2);
+  }
+  .island-map-wrap {
+    position: relative;
+    height: 56vh;
+    min-height: 360px;
+    max-height: 620px;
+    background: #b6cbcf;
+    border: 1px solid rgba(43,29,18,.3);
+    overflow: hidden;
+  }
+  #island-map {
+    width: 100%;
+    height: 100%;
+    background: #b6cbcf;
+  }
+  .island-map-wrap .leaflet-tile {
+    filter: sepia(.30) saturate(.85) brightness(1.00) contrast(1.05);
+  }
+  .island-map-wrap .leaflet-container {
+    background: #b6cbcf;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .island-map-wrap .map-cartouche {
+    position: absolute;
+    bottom: .75rem;
+    left: .75rem;
+    z-index: 500;
+    background: rgba(237,228,211,.85);
+    padding: .45rem .8rem;
+    border: 1px solid rgba(43,29,18,.3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .58rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  .island-map-wrap .map-cartouche strong { color: var(--ink); font-weight: 500; }
+
+  /* Loading state */
+  .island-map-wrap .status {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: .4rem;
+    background: var(--paper);
+    z-index: 1000;
+    font-style: italic;
+    color: var(--ink-soft);
+    text-align: center;
+    padding: 1rem;
+    transition: opacity .4s ease;
+  }
+  .island-map-wrap .status.hidden { opacity: 0; pointer-events: none; }
+  .island-map-wrap .status small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .15em;
+    color: var(--ink-soft);
+    opacity: .7;
+  }
+
+  /* Place tooltip — matches migrations-map.html .route-tooltip */
+  .leaflet-tooltip.place-tooltip {
+    background: var(--paper);
+    border: 1px solid rgba(43,29,18,.4);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: .95rem;
+    padding: .6rem .8rem;
+    max-width: 240px;
+    white-space: normal;
+    line-height: 1.4;
+    box-shadow: 2px 3px 0 rgba(43,29,18,.12);
+    border-radius: 0;
+  }
+  .leaflet-tooltip.place-tooltip strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .58rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: .35rem;
+    font-weight: 500;
+  }
+  .leaflet-tooltip.place-tooltip-top::before    { border-top-color:    rgba(43,29,18,.4); }
+  .leaflet-tooltip.place-tooltip-bottom::before { border-bottom-color: rgba(43,29,18,.4); }
+  .leaflet-tooltip.place-tooltip-left::before   { border-left-color:   rgba(43,29,18,.4); }
+  .leaflet-tooltip.place-tooltip-right::before  { border-right-color:  rgba(43,29,18,.4); }
+
+  .place-tooltip-desc { margin-bottom: .4rem; }
+  .place-tooltip-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .58rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+  }
+  .place-tooltip-link:hover { text-decoration: none; border-bottom-color: var(--ink); color: var(--ink); }
+
+  .island-map-hint {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: .95rem;
+    margin-top: .9rem;
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .island-map-wrap { height: 60vh; min-height: 320px; }
+    .island-map-wrap .map-cartouche {
+      font-size: .55rem;
+      padding: .35rem .6rem;
+      letter-spacing: .15em;
+    }
+  }
 </style>
 </head>
 <body>
@@ -246,6 +389,23 @@
       </p>
     </div>
 
+    <section class="island-map-section" aria-label="Map of Phuket places">
+      <div class="legend-title">An atlas of places</div>
+      <div class="island-map-wrap">
+        <div class="status" id="island-map-status">
+          <div>Loading atlas…</div>
+          <small>fetching map tiles</small>
+        </div>
+        <div id="island-map" role="region" aria-label="Interactive map of Phuket Island"></div>
+        <div class="map-cartouche">
+          <strong>Phuket</strong> &nbsp;·&nbsp; 7.88° N, 98.39° E &nbsp;·&nbsp; Andaman Sea
+        </div>
+      </div>
+      <p class="island-map-hint">
+        Each dot is a place mentioned in the chapters. Tap one to read about it.
+      </p>
+    </section>
+
     <div class="for-students">
       <h3>How to use this book</h3>
       Words with a <span style="border-bottom:1.5px dotted var(--accent);">dotted red line</span>
@@ -300,6 +460,186 @@
 <footer>
   Phuket Textbook · A work in progress
 </footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function() {
+  const mapEl    = document.getElementById('island-map');
+  const statusEl = document.getElementById('island-map-status');
+  if (!mapEl || !statusEl) return;
+
+  const safetyTimeout = setTimeout(() => statusEl.classList.add('hidden'), 8000);
+
+  if (typeof L === 'undefined') {
+    statusEl.querySelector('small').textContent = 'Map library failed to load.';
+    return;
+  }
+
+  // Each place is a small ink dot on the island map. Coordinates verified
+  // against tourismthailand.org / Google Maps / OpenStreetMap.
+  const places = [
+    {
+      name: "Heroines' Monument",
+      coord: [8.0033, 98.3441],
+      desc: "Bronze statues of Lady Chan and Lady Mook, the sisters who led the defence of Thalang in 1785.",
+      href: "heroines.html"
+    },
+    {
+      name: "Wat Phra Nang Sang",
+      coord: [8.0380, 98.3422],
+      desc: "The old Thalang temple at the centre of the 1785 siege — its walls and cannons protected the town.",
+      href: "heroines.html"
+    },
+    {
+      name: "Thalang National Museum",
+      coord: [7.9808, 98.3665],
+      desc: "Opened in 1985 to mark 200 years since the siege. Holds objects from old Thalang and the island's prehistory.",
+      href: "heroines.html"
+    },
+    {
+      name: "Baan Khien",
+      coord: [7.9950, 98.3250],
+      desc: "The Si Sunthon village where Lady Chan was born — a quiet community in the middle of the island.",
+      href: "heroines.html"
+    },
+    {
+      name: "Phuket Old Town",
+      coord: [7.8835, 98.3866],
+      desc: "Streets of Sino-Portuguese shophouses, built with Hokkien tin money in the late 1800s.",
+      href: "tin-island.html"
+    },
+    {
+      name: "Saphan Hin",
+      coord: [7.8710, 98.3970],
+      desc: "A seaside park at the south of Phuket Town, built on tin tailings the dredges left behind.",
+      href: "tin-island.html"
+    },
+    {
+      name: "Phuket Mining Museum",
+      coord: [7.9350, 98.3500],
+      desc: "In Kathu — preserves dredge equipment, photographs, and miners' tools from the tin years.",
+      href: "tin-island.html"
+    },
+    {
+      name: "Patong Beach",
+      coord: [7.8978, 98.2967],
+      desc: "Where the first foreign tourists arrived in the 1970s — now Phuket's busiest beach.",
+      href: "tin-island.html"
+    },
+    {
+      name: "Kata Beach",
+      coord: [7.8203, 98.2986],
+      desc: "Club Med opened here in 1986, helping turn the island from tin to tourism.",
+      href: "tin-island.html"
+    },
+    {
+      name: "Rawai",
+      coord: [7.7780, 98.3310],
+      desc: "Home to a Chao Le sea-people community — one of the island's oldest continuous settlements.",
+      href: "migrations-map.html"
+    },
+    {
+      name: "Phuket International Airport",
+      coord: [8.1080, 98.3168],
+      desc: "How most visitors arrive today — at the north of the island, in old Thalang District.",
+      href: null
+    }
+  ];
+
+  const map = L.map('island-map', {
+    center: [7.94, 98.345],
+    zoom: 11,
+    minZoom: 10,
+    maxZoom: 14,
+    zoomControl: true,
+    scrollWheelZoom: false   // less hostile when scrolling the page
+  });
+  // Re-enable scroll-zoom only when the user is actively focused on the map.
+  map.on('focus', () => map.scrollWheelZoom.enable());
+  map.on('blur',  () => map.scrollWheelZoom.disable());
+
+  const tileLayer = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
+    {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }
+  );
+  tileLayer.on('load', () => {
+    clearTimeout(safetyTimeout);
+    statusEl.classList.add('hidden');
+  });
+  tileLayer.addTo(map);
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => (
+      { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+    ));
+  }
+
+  // Some browsers report touch + hover (touch laptops). We use the hover query
+  // to decide if click-to-navigate is safe, since on pure touch devices
+  // a tap should open the tooltip first, not navigate immediately.
+  const supportsHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+
+  places.forEach(place => {
+    const isOrient = !place.href; // airport: orienting context only
+    const baseStyle = {
+      radius: isOrient ? 4 : 6,
+      fillColor: isOrient ? '#5a4530' : '#2b1d12',
+      color: '#ede4d3',
+      weight: isOrient ? 1.5 : 2,
+      fillOpacity: isOrient ? 0.7 : 1
+    };
+    const hoverStyle = {
+      radius: isOrient ? 6 : 8,
+      fillColor: '#a8331f',
+      color: '#ede4d3',
+      weight: 2,
+      fillOpacity: 1
+    };
+
+    const marker = L.circleMarker(place.coord, baseStyle).addTo(map);
+
+    const linkHtml = place.href
+      ? `<a class="place-tooltip-link" href="${place.href}">Read more →</a>`
+      : '';
+    const tooltipHtml =
+      `<strong>${escapeHtml(place.name)}</strong>` +
+      `<div class="place-tooltip-desc">${escapeHtml(place.desc)}</div>` +
+      linkHtml;
+
+    marker.bindTooltip(tooltipHtml, {
+      direction: 'top',
+      offset: [0, -8],
+      className: 'place-tooltip',
+      sticky: false,
+      interactive: true,
+      opacity: 1
+    });
+
+    marker.on('mouseover', () => marker.setStyle(hoverStyle));
+    marker.on('mouseout',  () => marker.setStyle(baseStyle));
+
+    // On hover-capable devices: a click jumps straight to the chapter.
+    // On touch-only devices: leave the click to toggle the tooltip
+    // (so users see the description first, then tap "Read more →").
+    if (place.href && supportsHover) {
+      marker.on('click', () => { window.location.href = place.href; });
+    }
+  });
+
+  // Fit the map to all the markers, with a little padding.
+  const bounds = L.latLngBounds(places.map(p => p.coord)).pad(0.08);
+  map.fitBounds(bounds, { maxZoom: 12 });
+
+  // Leaflet sometimes sizes wrong if the container animates in or the
+  // browser reflows. Re-measure shortly after load and on every resize.
+  setTimeout(() => map.invalidateSize(), 300);
+  window.addEventListener('resize', () => map.invalidateSize());
+})();
+</script>
 
 </body>
 </html>
