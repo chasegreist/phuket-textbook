@@ -632,15 +632,18 @@
       linkHtml;
 
     // Popups (not tooltips) so autoPan keeps the card on-screen
-    // when the marker is near the map's edge.
+    // when the marker is near the map's edge. Generous top padding
+    // because Leaflet's autoPan undershoots a bit on first open.
     marker.bindPopup(popupHtml, {
       className: 'place-popup',
       closeButton: false,
       autoClose: true,
       closeOnClick: true,
       autoPan: true,
-      autoPanPadding: [16, 16],
-      offset: [0, -2]
+      autoPanPaddingTopLeft: [16, 32],
+      autoPanPaddingBottomRight: [16, 16],
+      offset: [0, -2],
+      keepInView: true
     });
 
     marker.on('mouseout', () => marker.setStyle(baseStyle));
@@ -661,9 +664,15 @@
     }
   });
 
-  // Fit the map to all the markers, with a little padding.
-  const bounds = L.latLngBounds(places.map(p => p.coord)).pad(0.08);
-  map.fitBounds(bounds, { maxZoom: 12 });
+  // Fit to the markers with extra headroom at the top. This way the
+  // northernmost marker (the airport) has enough space above it for a
+  // popup to open without autoPan sliding the island off-screen.
+  const bounds = L.latLngBounds(places.map(p => p.coord));
+  map.fitBounds(bounds, {
+    paddingTopLeft:     [20, 90],
+    paddingBottomRight: [20, 30],
+    maxZoom: 12
+  });
 
   // Leaflet sometimes sizes wrong if the container animates in or the
   // browser reflows. Re-measure shortly after load and on every resize.
