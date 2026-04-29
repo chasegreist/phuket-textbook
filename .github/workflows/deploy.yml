@@ -1,0 +1,30 @@
+name: Deploy to Cloudflare Pages
+
+# Runs on every push to main, plus manually from the Actions tab.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Wrangler-action needs deployments:write to post the deploy summary back to GitHub.
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Deploy the whole repo as static assets to the existing project.
+          # --branch=main maps to the production branch in the Pages project.
+          # --commit-dirty=true silences a confirmation prompt about uncommitted files in CI.
+          command: pages deploy . --project-name=phuket-textbook --branch=main --commit-dirty=true
