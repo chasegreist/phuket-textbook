@@ -259,6 +259,128 @@
   .tl-label { font-size: 1.02rem; line-height: 1.45; }
   .tl-label strong { font-weight: 600; }
 
+  /* ---------- Map figure ---------- */
+  .figure-map {
+    margin: 2.5rem 0 1.75rem;
+    padding: 0;
+  }
+  .figure-map-frame {
+    position: relative;
+    background: var(--paper-dark);
+    padding: .5rem;
+    border: 1px solid rgba(43,29,18,.25);
+    box-shadow: 3px 4px 0 rgba(43,29,18,.12);
+    line-height: 0;
+  }
+  .figure-map-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .figure-map-overlay {
+    position: absolute;
+    top: .5rem; left: .5rem;
+    width: calc(100% - 1rem);
+    height: calc(100% - 1rem);
+    pointer-events: none;
+  }
+  .figure-map .fm-dot {
+    fill: var(--ink);
+    stroke: var(--paper);
+    stroke-width: 3;
+  }
+  .figure-map .fm-dot.is-phuket {
+    fill: var(--accent);
+  }
+  .figure-map .fm-phuket-ring {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+    opacity: .35;
+  }
+  .figure-map .fm-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 17px;
+    letter-spacing: .08em;
+    fill: var(--ink);
+    text-transform: uppercase;
+    paint-order: stroke;
+    stroke: var(--paper);
+    stroke-width: 4;
+    stroke-linejoin: round;
+  }
+  .figure-map .fm-label.is-phuket {
+    font-size: 22px;
+    fill: var(--accent);
+    font-weight: 500;
+  }
+  .figure-map .fm-label.is-water {
+    font-style: italic;
+    fill: var(--c-sea);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    text-transform: none;
+    letter-spacing: .15em;
+  }
+  .figure-map .fm-arrow {
+    stroke: var(--accent);
+    stroke-width: 2;
+    fill: none;
+  }
+  .figure-map .fm-arrowhead {
+    fill: var(--accent);
+  }
+  .figure-map .fm-offmap-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    letter-spacing: .08em;
+    fill: var(--accent);
+    text-transform: uppercase;
+    font-weight: 500;
+    paint-order: stroke;
+    stroke: var(--paper);
+    stroke-width: 4;
+    stroke-linejoin: round;
+  }
+  .figure-map .fm-offmap-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .1em;
+    fill: var(--ink-soft);
+    text-transform: uppercase;
+    paint-order: stroke;
+    stroke: var(--paper);
+    stroke-width: 4;
+    stroke-linejoin: round;
+  }
+  .figure-map figcaption {
+    margin-top: .85rem;
+    font-size: .95rem;
+    line-height: 1.5;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .figure-map .figure-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .6rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-right: .5rem;
+    font-style: normal;
+    font-weight: 500;
+  }
+  .figure-map .figure-credit {
+    display: block;
+    margin-top: .35rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .08em;
+    color: var(--ink-soft);
+    font-style: normal;
+    line-height: 1.4;
+  }
+
   /* ---------- End matter ---------- */
   .endnote {
     margin-top: 3rem;
@@ -352,6 +474,115 @@
       <li><strong>Phuket was always close to the Malay world.</strong> The pirates, the trade, the danger — and sometimes the rulers — came from the south.</li>
     </ol>
   </section>
+
+  <!-- ============================================================ -->
+  <figure class="figure-map">
+    <div class="figure-map-frame">
+      <img src="images/pirates-map.png"
+           alt="A sepia ink-drawn chart of Southeast Asia showing the Malay Peninsula, Sumatra, and the western edge of Borneo. Phuket lies on the upper-west coast of the Malay Peninsula. Bangkok and the distant pirate homelands of Sulawesi and the Sulu Sea sit beyond the edges of the map."
+           loading="lazy" />
+      <svg class="figure-map-overlay"
+           viewBox="0 0 1200 896"
+           preserveAspectRatio="none"
+           aria-hidden="true">
+        <defs>
+          <marker id="fm-arrowhead" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" class="fm-arrowhead" />
+          </marker>
+        </defs>
+
+        <!-- Water labels -->
+        <text class="fm-label is-water" x="180" y="240">Bay of Bengal</text>
+        <text class="fm-label is-water" x="430" y="430">Strait of Malacca</text>
+        <text class="fm-label is-water" x="860" y="240">Gulf of Thailand</text>
+
+        <!-- On-map places -->
+        <!-- Mergui (southern Burma coast — west coast, near top) -->
+        <circle class="fm-dot" cx="475" cy="80"  r="6"/>
+        <text class="fm-label"  x="490" y="75">Mergui</text>
+
+        <!-- Surin Islands (Portuguese pirate base, in Andaman Sea N of Phuket) -->
+        <circle class="fm-dot" cx="425" cy="155" r="5"/>
+        <text class="fm-label"  x="310" y="150">Surin Is.</text>
+
+        <!-- Phuket (highlighted, on the upper-west coast of Malay Peninsula) -->
+        <circle class="fm-phuket-ring" cx="495" cy="215" r="18"/>
+        <circle class="fm-phuket-ring" cx="495" cy="215" r="11"/>
+        <circle class="fm-dot is-phuket" cx="495" cy="215" r="7"/>
+        <text class="fm-label is-phuket" x="510" y="210">Phuket</text>
+
+        <!-- Ligor (Nakhon Si Thammarat, east coast of peninsula) -->
+        <circle class="fm-dot" cx="600" cy="170" r="5"/>
+        <text class="fm-label" x="615" y="165">Ligor</text>
+
+        <!-- Songkla (east coast, further south) -->
+        <circle class="fm-dot" cx="615" cy="240" r="5"/>
+        <text class="fm-label" x="630" y="235">Songkla</text>
+
+        <!-- Langkawi (west coast between Phuket and Penang) -->
+        <circle class="fm-dot" cx="500" cy="260" r="5"/>
+        <text class="fm-label" x="395" y="265">Langkawi</text>
+
+        <!-- Penang (west coast, south of Langkawi) -->
+        <circle class="fm-dot" cx="515" cy="295" r="5"/>
+        <text class="fm-label" x="415" y="310">Penang</text>
+
+        <!-- Kedah (mainland inland of Penang) -->
+        <circle class="fm-dot" cx="550" cy="305" r="5"/>
+        <text class="fm-label" x="565" y="310">Kedah</text>
+
+        <!-- Selangor (further south on Malay Peninsula west coast) -->
+        <circle class="fm-dot" cx="610" cy="420" r="5"/>
+        <text class="fm-label" x="625" y="425">Selangor</text>
+
+        <!-- Malacca (further south still) -->
+        <circle class="fm-dot" cx="680" cy="490" r="5"/>
+        <text class="fm-label" x="695" y="495">Malacca</text>
+
+        <!-- Johor (southern tip of peninsula) -->
+        <circle class="fm-dot" cx="790" cy="580" r="5"/>
+        <text class="fm-label" x="805" y="585">Johor</text>
+
+        <!-- Aceh (NW tip of Sumatra) -->
+        <circle class="fm-dot" cx="375" cy="355" r="6"/>
+        <text class="fm-label" x="245" y="355">Aceh</text>
+
+        <!-- Off-map: Ayutthaya / Bangkok (north, off top edge) -->
+        <path class="fm-arrow"
+              d="M 495 210 L 700 35"
+              marker-end="url(#fm-arrowhead)"/>
+        <text class="fm-offmap-label" x="715" y="30">Ayutthaya · Bangkok</text>
+        <text class="fm-offmap-sub"   x="715" y="50">(far north)</text>
+
+        <!-- Off-map: Sulawesi / Bugis homeland (east, right edge) -->
+        <path class="fm-arrow"
+              d="M 1000 620 L 1180 620"
+              marker-end="url(#fm-arrowhead)"/>
+        <text class="fm-offmap-label" x="990" y="600" text-anchor="end">Sulawesi</text>
+        <text class="fm-offmap-sub"   x="990" y="620" text-anchor="end">(Bugis homeland)</text>
+
+        <!-- Off-map: Sulu Sea / Illanun (NE, top-right corner) -->
+        <path class="fm-arrow"
+              d="M 1020 80 L 1180 30"
+              marker-end="url(#fm-arrowhead)"/>
+        <text class="fm-offmap-label" x="1010" y="70" text-anchor="end">Sulu Sea</text>
+        <text class="fm-offmap-sub"   x="1010" y="90" text-anchor="end">(Illanun homeland)</text>
+      </svg>
+    </div>
+    <figcaption>
+      <span class="figure-label">Fig. I</span>
+      The Andaman frontier. Aceh, Johor, Penang, Kedah, and Selangor sat
+      within a few days' sail of Phuket. Ayutthaya and Bangkok were weeks
+      away. The Bugis came from a thousand kilometres south; the Illanun
+      from even farther east. The geography is the argument.
+      <span class="figure-credit">
+        Base chart: AI-generated illustration in the style of an
+        18th-century European nautical map. Place names, off-map arrows,
+        and labels added afterwards as an SVG layer.
+      </span>
+    </figcaption>
+  </figure>
 
   <!-- ============================================================ -->
   <section class="act" id="why-pirates-mattered">
