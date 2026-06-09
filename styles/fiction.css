@@ -1,0 +1,265 @@
+/* ============================================================
+   Five-Foot Way — historical fiction
+   Shared layout for the story contents page + per-chapter pages.
+   Builds on styles/textbook.css (design tokens + .site-nav).
+   ============================================================ */
+
+/* ---------- Reading column ---------- */
+.chapter {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 5rem;
+}
+.chapter-header {
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(43,29,18,.25);
+}
+.chapter-header h1 {
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 600;
+  line-height: 1;
+  margin: .25rem 0 .5rem;
+  letter-spacing: -.01em;
+}
+.chapter-header h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 500;
+}
+.chapter-dek {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  color: var(--ink-soft);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.chapter-sub {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  max-width: 52ch;
+  margin-top: .5rem;
+}
+
+/* ---------- Chapter prose ---------- */
+.chapter-body p {
+  font-size: 1.08rem;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+.chapter-body p:last-child { margin-bottom: 0; }
+.chapter-body p em { font-style: italic; }
+
+/* ---------- Scene break (within a chapter) ---------- */
+.scene-break {
+  border: none;
+  text-align: center;
+  margin: 1.75rem 0;
+  color: var(--ink-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem;
+  letter-spacing: .5em;
+}
+.scene-break::before { content: "· · ·"; }
+
+/* ---------- Author's historical note ---------- */
+.author-note {
+  margin: 2.75rem 0 1rem;
+  padding: 1.5rem 1.5rem;
+  background: rgba(43,29,18,.04);
+  border: 1px solid rgba(43,29,18,.15);
+  border-left: 3px solid var(--c-amber);
+}
+.author-note h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--c-amber);
+  margin-bottom: .85rem;
+  font-weight: 500;
+}
+.author-note p {
+  font-size: .98rem;
+  line-height: 1.6;
+  color: var(--ink);
+  margin-bottom: .85rem;
+}
+.author-note p:last-child { margin-bottom: 0; }
+.author-note p em { font-style: italic; }
+
+/* ---------- Chapter footer (prev / next) ---------- */
+.chapter-footer {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(43,29,18,.2);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.chapter-footer a { color: var(--ink-soft); text-decoration: none; }
+.chapter-footer a:hover { color: var(--accent); text-decoration: none; }
+.chapter-footer .prev::before { content: "← "; }
+.chapter-footer .next::after  { content: " →"; }
+.chapter-footer .spacer { flex: 1; }
+
+/* ---------- Story contents page ---------- */
+.story-intro p {
+  font-size: 1.12rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-width: 56ch;
+}
+.story-intro p:first-of-type { font-size: 1.18rem; }
+
+.story-toc {
+  margin-top: 2.5rem;
+  border-top: 1px solid rgba(43,29,18,.2);
+}
+.story-toc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 2.25rem 0 .25rem;
+}
+.toc-chapter {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(43,29,18,.15);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background .2s ease, padding .2s ease;
+}
+.toc-chapter:hover {
+  background: rgba(43,29,18,.04);
+  padding-left: .5rem;
+  text-decoration: none;
+}
+.toc-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem;
+  letter-spacing: .1em;
+  color: var(--accent);
+  padding-top: .25rem;
+}
+.toc-chapter-title {
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: .25rem;
+}
+.toc-chapter-title em { font-style: italic; color: var(--accent); font-weight: 500; }
+.toc-chapter-teaser {
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 58ch;
+}
+
+/* ---------- Password gate ---------- */
+.gate {
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+.gate-card {
+  max-width: 440px;
+  width: 100%;
+  background: var(--paper);
+  border: 1px solid rgba(43,29,18,.3);
+  box-shadow: 3px 4px 0 rgba(43,29,18,.12);
+  padding: 2rem 1.75rem;
+  text-align: center;
+  position: relative;
+}
+.gate-card::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(43,29,18,.15);
+  pointer-events: none;
+}
+.gate-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .3em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  margin-bottom: .75rem;
+}
+.gate-card h1 {
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: .5rem;
+}
+.gate-card h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+.gate-card p {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+.gate-form { display: flex; flex-direction: column; gap: .75rem; align-items: stretch; }
+.gate-form input {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  padding: .75rem .9rem;
+  background: var(--paper-dark);
+  border: 1px solid rgba(43,29,18,.3);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: .15em;
+}
+.gate-form input:focus { outline: none; border-color: var(--accent); background: var(--paper); }
+.gate-form button {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  padding: .8rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.gate-form button:hover { background: var(--accent); border-color: var(--accent); }
+.gate-error {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .15em;
+  color: var(--accent);
+  min-height: 1em;
+  margin-top: .25rem;
+}
+.gate-hint {
+  margin-top: 1.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: .8;
+}
+
+@media (max-width: 600px) {
+  .chapter { padding: 1.5rem 1.1rem 4rem; }
+  .toc-chapter { grid-template-columns: 2rem 1fr; gap: .75rem; }
+  .toc-chapter-title { font-size: 1.3rem; }
+}
