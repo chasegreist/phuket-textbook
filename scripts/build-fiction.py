@@ -90,10 +90,126 @@ CHAPTERS = [
 ]
 
 
-def md_inline(text: str) -> str:
-    """Escape HTML, then turn *single-asterisk* spans into <em>."""
+# ---------------------------------------------------------------------------
+# Vocabulary glossary — EAL click-to-define support.
+# The first occurrence of each term in a chapter body is wrapped in a
+# <span class="vocab" data-def="..."> so scripts/vocab.js shows a popup.
+# Manuscripts stay clean; definitions live here. Covers historical/domain
+# words (towkay, ang-yi, alluvial...) and Tier-2 English (bureaucrat,
+# obsolete, conviction...). Plain, G8/EAL-friendly definitions.
+# ---------------------------------------------------------------------------
+_GLOSSARY_SRC = [
+    # --- food & home ---
+    ("jok", "A rice porridge (also called congee) — rice boiled in lots of water until soft and creamy. A common breakfast across Asia.", "johk"),
+    ("you tiao", "A long stick of fried dough eaten at breakfast, often dipped in rice porridge or soy milk.", "yoh-tyao"),
+    ("five-foot way", "The covered walkway running along the front of the shophouses, about five feet wide. It gives shelter from sun and rain."),
+    ("shophouse", "A narrow building with a shop on the ground floor and the family's home on the floors above — common in old Southeast Asian towns."),
+    ("kebaya", "A light, fitted blouse worn by women in the Malay world, usually over a sarong.", "kuh-BAH-yah"),
+    ("ancestor shrine", "A small altar in the home honouring dead family members, where incense is burned and prayers are said."),
+    # --- peoples & places ---
+    ("Hokkien", "A Chinese language from Fujian province in southern China, spoken by most of Phuket's Chinese families.", "HOK-ee-en"),
+    ("Fujian", "A province on the southeast coast of China — the home region of most Chinese migrants to Phuket.", "foo-JYEN"),
+    ("Quanzhou", "A port city in Fujian, China, that many Phuket migrants set sail from.", "chwan-JOH"),
+    ("Penang", "An island and city in present-day Malaysia with a large Chinese community — a major trading partner of Phuket.", "puh-NANG"),
+    ("Rangoon", "The main city and port of Burma (now called Yangon, in Myanmar).", "rang-GOON"),
+    ("Siamese", "Belonging to Siam, the old name for Thailand (used until 1939). 'Siamese' means Thai.", "sy-uh-MEEZ"),
+    ("Kathu", "The main mining area of Phuket, in the hills inland from the town, where tin was first found in 1809.", "kah-TOO"),
+    ("Peranakan", "Descendants of early Chinese settlers who married local Malay people, blending both cultures. Also called Baba-Nyonya.", "puh-rah-nah-KAHN"),
+    # --- mining & labour ---
+    ("coolie", "An old and now offensive word for a poorly paid Asian labourer doing hard manual work. Used here for the indentured mine workers.", "KOO-lee"),
+    ("ang-yi", "A Chinese secret society, or 'brotherhood.' In Phuket these groups controlled the mine contracts and much of Chinese life.", "AHNG-yee"),
+    ("sipai", "An enforcer for a Chinese secret society — the men who collected debts and hunted down runaways.", "SEE-pai"),
+    ("towkay", "A Hokkien word for a wealthy business owner or boss — here, the man who owns and runs a mine.", "toh-KAI"),
+    ("barracks", "Plain buildings where many workers were housed together, like crowded dormitories.", "BA-raks"),
+    ("overseer", "A boss who watches over workers and forces them to keep working, often harshly.", "OH-ver-see-er"),
+    ("porter", "A worker who carries heavy loads — for example, loading and unloading boats at the harbour."),
+    ("godown", "A warehouse for storing goods, especially near a harbour — a common word in Asian ports.", "GOH-down"),
+    ("concession", "An official right, granted by a government, to use land or run a business such as a mine in a certain area.", "kun-SESH-un"),
+    # --- tin technology ---
+    ("hydraulic monitor", "A high-pressure water cannon. Aimed at a hillside, it blasts the earth apart so the tin can be washed out — doing the work of many men.", "hy-DROL-ik MON-i-ter"),
+    ("hydraulic", "Powered by water moving under high pressure.", "hy-DROL-ik"),
+    ("monitor", "Here, short for a hydraulic monitor — a powerful water cannon used to blast tin out of a hillside."),
+    ("sluice", "A long wooden channel that water runs through. Miners used it to wash away light soil so the heavy tin would settle and could be collected.", "sloos"),
+    ("palong", "A raised wooden sluice box built on a scaffold, used to process large amounts of tin-bearing mud and gravel.", "PAH-long"),
+    ("alluvial", "Made of sand, gravel and soil carried and dropped by rivers over a long time. Phuket's tin sat in alluvial gravel, easy to dig out.", "al-LOO-vee-uhl"),
+    ("cassiterite", "The most common tin ore — a heavy, dark, almost-black mineral that settles at the bottom of the sluice.", "kuh-SIT-uh-rite"),
+    ("sediment", "Tiny bits of sand, mud and rock that settle to the bottom of water.", "SED-i-ment"),
+    ("deposit", "An amount of a mineral, such as tin, that has built up naturally in the ground.", "di-POZ-it"),
+    ("swivel", "A joint that lets something turn freely from side to side.", "SWIV-uhl"),
+    ("scaffolding", "A temporary frame of poles and planks used to support a structure or hold workers up high.", "SKAF-uhl-ding"),
+    # --- travel, trade & objects ---
+    ("mangrove", "A tree that grows in salty water along tropical coasts, with tangled roots rising out of the mud.", "MANG-grohv"),
+    ("junk", "A traditional Chinese wooden sailing ship with broad sails, used for trade and travel across Southeast Asia."),
+    ("rickshaw", "A small two-wheeled passenger cart pulled by a person on foot.", "RIK-shaw"),
+    ("opium", "An addictive drug made from poppies and smoked to dull pain. It was sold openly in the mines and kept many workers in debt.", "OH-pee-um"),
+    ("telegraph", "A machine that sends written messages over long distances as electric signals through wires — the fastest communication of the 1900s.", "TEL-uh-graf"),
+    # --- Tier-2 academic English ---
+    ("hospitality", "A warm, generous welcome given to guests.", "hos-pi-TAL-i-tee"),
+    ("conviction", "A strong, firm belief that you are right.", "kun-VIK-shun"),
+    ("obsolete", "No longer useful or needed, because something newer has replaced it.", "OB-suh-leet"),
+    ("patriarch", "The most senior and respected male leader of a family.", "PAY-tree-ark"),
+    ("negotiate", "To talk and bargain with others in order to reach an agreement.", "ni-GOH-shee-ate"),
+    ("transition", "A change from one system or state to another, and the in-between period while it happens.", "tran-ZISH-un"),
+    ("bureaucrat", "A government official whose job is to follow official rules and handle paperwork. 'Bureaucratic' describes this careful, rule-bound way of working.", "BYOOR-uh-krat"),
+]
+
+GLOSSARY = {}
+for _term, _definition, *_rest in _GLOSSARY_SRC:
+    GLOSSARY[_term.lower()] = {
+        "def": _definition,
+        "pron": _rest[0] if _rest else None,
+        # match the whole word, allowing a simple plural (s/es), case-insensitive
+        "re": re.compile(r"\b" + re.escape(_term) + r"(?:e?s)?\b", re.IGNORECASE),
+    }
+
+
+def _vocab_span(word: str, entry: dict) -> str:
+    d = html.escape(entry["def"], quote=True)
+    pron = entry.get("pron")
+    pron_attr = f' data-pron="{html.escape(pron, quote=True)}"' if pron else ""
+    return f'<span class="vocab" data-def="{d}"{pron_attr}>{word}</span>'
+
+
+def _wrap_text(text: str, used: set) -> str:
+    """Wrap the first unused glossary term occurrences inside a plain-text run."""
+    out = []
+    i, n = 0, len(text)
+    while i < n:
+        best = None  # (start, end, key)
+        for key, entry in GLOSSARY.items():
+            if key in used:
+                continue
+            m = entry["re"].search(text, i)
+            if not m:
+                continue
+            # earliest start wins; on a tie the longer match wins
+            if best is None or m.start() < best[0] or (m.start() == best[0] and m.end() > best[1]):
+                best = (m.start(), m.end(), key)
+        if best is None:
+            out.append(text[i:])
+            break
+        start, end, key = best
+        out.append(text[i:start])
+        out.append(_vocab_span(text[start:end], GLOSSARY[key]))
+        used.add(key)
+        i = end
+    return "".join(out)
+
+
+def wrap_vocab(fragment: str, used: set) -> str:
+    """Wrap glossary terms in an HTML fragment, skipping inside any tag."""
+    parts = re.split(r"(<[^>]+>)", fragment)
+    return "".join(
+        p if (not p or p.startswith("<")) else _wrap_text(p, used) for p in parts
+    )
+
+
+def md_inline(text: str, vocab_used: set | None = None) -> str:
+    """Escape HTML, turn *single-asterisk* spans into <em>, optionally add vocab."""
     text = html.escape(text, quote=False)
     text = re.sub(r"\*([^*]+)\*", r"<em>\1</em>", text)
+    if vocab_used is not None:
+        text = wrap_vocab(text, vocab_used)
     return text
 
 
@@ -123,12 +239,13 @@ def parse_chapter(path: Path, skip_intro: str | None):
     while blocks and blocks[-1][0] == "hr":
         blocks.pop()
 
+    used = set()  # first-occurrence-per-chapter vocab tracking
     body_html = []
     for kind, val in blocks:
         if kind == "hr":
             body_html.append('    <hr class="scene-break" />')
         else:
-            body_html.append(f"    <p>{md_inline(val)}</p>")
+            body_html.append(f"    <p>{md_inline(val, used)}</p>")
     body = "\n".join(body_html)
 
     # ---- author's note ----
@@ -188,6 +305,7 @@ CHAPTER_TEMPLATE = """<!DOCTYPE html>
 
 </article>
 
+<script src="scripts/vocab.js"></script>
 </body>
 </html>
 """
